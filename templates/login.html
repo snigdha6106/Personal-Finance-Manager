@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Personal Finance Manager</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        /* Styles for the login page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        header {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 20px 0;
+            text-align: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .logo {
+            color: #35495e;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            width: 100%;
+            max-width: 300px;
+            max-height: 400px; /* Reduced max width to fit nicely */
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 40px 0; /* Add extra margin for balance */
+            text-align: center;
+        }
+
+        .login-section {
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            font-size: 16px;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        p {
+            font-size: 14px;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        p a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.85);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        footer nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        footer nav ul li {
+            display: inline;
+            margin: 0 5px;
+        }
+
+        footer nav ul li a {
+            color: #35495e;
+            text-decoration: none;
+        }
+
+        footer nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">MyFinance</div>
+    </header>
+
+    <!-- Login Form -->
+    <main>
+        <section class="login-section">
+            <h2>Login to Your Account</h2>
+
+            <form action="dashboard.html" method="post" id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit">Login</button>
+            </form>
+
+            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up here</a></p>
+            
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Personal Finance Manager. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Contact us</a></li>
+            </ul>
+        </nav>
+    </footer>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Get the values of username and password (optional validation)
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+    
+            // Add basic validation or a mock authentication check here if needed
+            if (username && password) { // Replace with actual authentication logic if needed
+                window.location.href = "{% url 'dashboard' %}"; // Redirect to dashboard
+            } else {
+                alert("Please enter both username and password.");
+            }
+        });
+    </script>    
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My App{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'dashboard' %}" style="color: #3498db;">Return to Dashboard</a>>
+        </nav>
+    </header>
+    <style>
+    a {
+        color: #3498db; /* Default color */
+        text-decoration: none;
+    }
+    a:visited {
+        color: light blue !important; /* White color after being clicked */
+    }
+    </style>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Personal Finance Manager. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Contact us</a></li>
+            </ul>
+    </footer>
+    {% block extra_js %}
+    {% endblock %}
+</body>
+</html>

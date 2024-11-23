@@ -1,0 +1,375 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Finance Manager</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDV8fGZpbmFuY2V8fDB8fHx8MTYyMjk1OTUyMg&ixlib=rb-1.2.1&q=80&w=1080');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+}
+
+/* Overlay for better text visibility */
+main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    color: #fff;
+    flex-grow: 1;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Header */
+header {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #35495e;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #35495e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    color: #5e84a1;
+}
+
+/* Summary Section */
+.summary-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.summary-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 22%;
+    text-align: center;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+}
+/* Add Transaction Button */
+.add-transaction-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #28a745; /* Green button */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: 100%; /* Make button take full width */
+    text-align: center;
+}
+
+.add-transaction-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+.summary-card h3 {
+    color: #35495e;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.summary-card p {
+    font-size: 20px;
+    color: #3498db;
+    margin-bottom: 10px;
+}
+
+.summary-card button {
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.summary-card button:hover {
+    background-color: #35495e;
+}
+
+/* Transaction Section */
+.transaction-section h2 {
+    color: whitesmoke;
+}
+
+.transaction-section button {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.transaction-section button:hover {
+    background-color: #35495e;
+}
+
+.transaction-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.transaction-section th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    color: #000;
+}
+
+.transaction-section th {
+    background-color: #3498db;
+    color: white;
+}
+
+.transaction-section td {
+    background-color: #fff;
+    color: #000;
+}
+
+.transaction-section td:nth-child(4), 
+.transaction-section td:nth-child(6) {
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #35495e;
+    text-align: center;
+    padding: 5px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 10px;
+}
+
+footer nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-top: 10px;
+}
+
+footer nav ul li {
+    margin: 0 10px;
+}
+
+footer nav ul li a {
+    color: #35495e;
+    text-decoration: none;
+}
+
+footer nav ul li a:hover {
+    color: #3498db;
+}
+</style>
+    <header>
+        <div class="logo">MyFinance Dashboard</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'categories' %}">Categories</a></li>
+                <li><a href="{% url 'budgets' %}">Budgets</a></li>
+                <li><a href="{% url 'reports' %}">Reports</a></li>
+                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Main Content -->
+    <main>
+        <section class="summary-section">
+            <div class="summary-card">
+                <h3>This month's Income</h3>
+                <p>₹10,000</p>
+            </div>
+            <div class="summary-card">
+                <h3>This month's Expenses</h3>
+                <p>₹3,500</p>
+            </div>
+            <div class="summary-card">
+                <h3>This month's Savings</h3>
+                <p>₹6,500</p>
+            </div>
+            <div class="summary-card">
+                <h3>This months's Investments</h3>
+                <p>₹1000</p>
+            </div>
+        </section>
+
+        <section class="transaction-section">
+            <h2>Recent Transactions</h2>
+            <button class="add-transaction-btn" onclick="window.location.href='{% url 'add_transaction' %}'">+Add Transaction</button>
+
+            <button class="add-transaction-btn" id="view-more-btn" onclick="toggleTransactions()">+ View More Transactions</button>
+
+<table id="transactions-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Payment Method</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Transaction ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="shown-row">
+            <td>22-09-2024</td>
+            <td>Groceries</td>
+            <td>Food</td>
+            <td>UPI</td>
+            <td>₹2500</td>
+            <td>Completed</td>
+            <td>TXN1234567890</td>
+        </tr>
+        <tr class="shown-row">
+            <td>18-09-2024</td>
+            <td>Electricity</td>
+            <td>Utilities</td>
+            <td>Debit Card</td>
+            <td>₹2000</td>
+            <td>Pending</td>
+            <td>TXN1234567892</td>
+        </tr>
+        <tr class="shown-row">
+            <td>15-09-2024</td>
+            <td>Stocks</td>
+            <td>Investments</td>
+            <td>UPI</td>
+            <td>₹1000</td>
+            <td>Completed</td>
+            <td>TXN1234568675</td>
+        </tr>
+        <!-- Additional rows (hidden initially) -->
+        <tr class="hidden-row">
+            <td>10-09-2024</td>
+            <td>Rent</td>
+            <td>Housing</td>
+            <td>Credit Card</td>
+            <td>₹8000</td>
+            <td>Completed</td>
+            <td>TXN1234561234</td>
+        </tr>
+        <tr class="hidden-row">
+            <td>05-09-2024</td>
+            <td>Internet</td>
+            <td>Utilities</td>
+            <td>Debit Card</td>
+            <td>₹1500</td>
+            <td>Completed</td>
+            <td>TXN1234567895</td>
+        </tr>
+        <tr class="hidden-row">
+            <td>01-09-2024</td>
+            <td>Insurance</td>
+            <td>Health</td>
+            <td>UPI</td>
+            <td>₹2000</td>
+            <td>Completed</td>
+            <td>TXN1234561453</td>
+        </tr>
+    </tbody>
+</table>
+
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Personal Finance Manager. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Contact us</a></li>
+            </ul>
+        </nav>
+    </footer>
+    <script>
+    let isExpanded = false;
+
+    function toggleTransactions() {
+        const hiddenRows = document.querySelectorAll('.hidden-row');
+        const button = document.getElementById('view-more-btn');
+
+        // Toggle the visibility of the hidden rows
+        hiddenRows.forEach(row => {
+            row.style.display = isExpanded ? 'none' : ''; // Hide or show the rows
+        });
+
+        // Change the button text based on the state
+        button.textContent = isExpanded ? '+ View More Transactions' : '+ View Less Transactions';
+
+        // Toggle the expanded state
+        isExpanded = !isExpanded;
+    }
+
+    // Initially, hide all rows with the class "hidden-row"
+    document.querySelectorAll('.hidden-row').forEach(row => {
+        row.style.display = 'none';
+    });
+</script>
+
+</body>
+</html> 

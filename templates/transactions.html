@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Recently Added Transactions
+{% endblock %}
+
+{% block content %}
+<h1>Recently Added Transactions</h1>
+<h1>------------------------------------------</h1>
+<!-- Inline CSS for debugging -->
+<style>
+    table td, table th {
+        color: white !important; /* Force white text */
+    }
+
+    table {
+        background-color: #35495e; /* Dark background for contrast */
+    }
+
+    .delete-btn {
+        background-color: #dc3545; /* Red background for delete button */
+        color: white;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaction in transactions %}
+        <tr class="all-white">
+            <td>{{ transaction.date }}</td>
+            <td>{{ transaction.description }}</td>
+            <td>{{ transaction.amount }}</td>
+            <td>{{ transaction.transaction_type }}</td>
+            <td>
+                <form method="POST" action="{% url 'delete_transaction' transaction.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-btn">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'add_transaction' %}">Add Transaction</a>
+{% endblock %}

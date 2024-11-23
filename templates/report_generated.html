@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Report</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        .report-container {
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <h2>{{ report_type }} Report</h2>
+        <p>From {{ start_date }} to {{ end_date }}</p>
+        <img src="data:image/png;base64,{{ image_base64 }}" alt="Generated Report">
+        <div class="back-button">
+            <a href="{% url 'reports' %}" class="button">Back to Reports</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgets - Personal Finance Manager</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <a href="{% url 'dashboard' %}" class="btn btn-primary">Return to Dashboard</a>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 10px 0;
+            text-align: center;
+        }
+        .logo {
+            color: #35495e;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        main {
+            max-width: 1200px;
+            width: 50%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            font-size: 26px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            white-space: nowrap;
+        }
+        .input-group label {
+            font-size: 16px;
+            color: #555;
+            margin-right: 10px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .button-group {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .amount-btn {
+            background-color: #ccc;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin-left: 5px;
+        }
+        .amount-btn:hover {
+            background-color: #999;
+        }
+        .input-group button {
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .input-group button:hover {
+            background-color: #2980b9;
+        }
+        .settings-section {
+            margin-top: 10px;
+            color: #35495e;
+        }
+        .budget-summary {
+            margin-top: 30px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .budget-summary h3 {
+            font-size: 20px;
+            color: #333;
+        }
+        .budget-summary p {
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">MyFinance</div>
+    </header>
+    <main>
+        <h2>Budgets</h2>
+        <div class="settings-section">
+            <h3>Set Budget</h3>
+            <form action="budgets.html" method="post" id="set-budget-form">
+                <div class="input-group">
+                    <label for="budget-amount">Amount:</label>
+                    <input type="number" id="budget-amount" name="budget-amount" value="5000" min="0">
+                    <div class="button-group">
+                        <button type="button" onclick="increaseAmount('budget-amount')" class="amount-btn">+</button>
+                        <button type="button" onclick="decreaseAmount('budget-amount')" class="amount-btn">-</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <button type="submit" onclick="updateBudget()">Set Budget</button>
+                </div>
+            </form>
+        </div>
+        <div class="settings-section">
+            <h3>Add Category</h3>
+            <form action="budgets.html" method="post" id="add-category-form">               
+                <div class="input-group">
+                    <label for="category-name">Category Name:</label>
+                    <input type="text" id="category-name" name="category-name" placeholder="Enter category name">
+                </div>
+                <div class="input-group">
+                    <label for="category-amount">Amount:</label>
+                    <input type="number" id="category-amount" name="category-amount" value="500" min="0">
+                    <div class="button-group">
+                        <button type="button" onclick="increaseAmount('category-amount')" class="amount-btn">+</button>
+                        <button type="button" onclick="decreaseAmount('category-amount')" class="amount-btn">-</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <button type="submit" onclick="updateCategory()">Add Category</button>
+                </div>
+            </form>
+        </div>
+        <div class="budget-summary">
+            <h3>Budget Summary</h3>
+            <p>Monthly Budget: Rs.<span id="monthly-budget">5000</span></p>
+            <p>Budget allotted for category 'gym': Rs.<span id="total-spent">0</span></p>
+            <p>Budget remaining for other categories: Rs.<span id="remaining-budget">5000</span></p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Personal Finance Manager. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms of Service</a></li>
+                <li><a href="#">Support</a></li>
+                <li><a href="#">Contact us</a></li>
+            </ul>
+        </nav>
+    </footer>
+    <script>
+        let totalSpent = 0;
+        function increaseAmount(id) {
+            var amountInput = document.getElementById(id);
+            var currentValue = parseInt(amountInput.value, 10);
+            amountInput.value = currentValue + 500;
+        }
+        function decreaseAmount(id) {
+            var amountInput = document.getElementById(id);
+            var currentValue = parseInt(amountInput.value, 10);
+            if (currentValue > 500) {
+                amountInput.value = currentValue - 500;
+            }
+        }
+        function updateBudget() {
+            event.preventDefault();
+            var monthlyBudget = parseInt(document.getElementById('budget-amount').value, 10);
+            document.getElementById('monthly-budget').textContent = monthlyBudget;
+            var remainingBudget = monthlyBudget - totalSpent;
+            document.getElementById('remaining-budget').textContent = remainingBudget;
+        }
+        function updateCategory() {
+            event.preventDefault();
+            var categoryAmount = parseInt(document.getElementById('category-amount').value, 10);
+            totalSpent = categoryAmount;
+            document.getElementById('total-spent').textContent = totalSpent;
+            var monthlyBudget = parseInt(document.getElementById('budget-amount').value, 10);
+            var remainingBudget = monthlyBudget - totalSpent;
+            document.getElementById('remaining-budget').textContent = remainingBudget;
+        }
+    </script>
+</body>
+</html>
